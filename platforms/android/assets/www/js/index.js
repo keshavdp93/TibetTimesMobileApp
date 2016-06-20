@@ -2,12 +2,14 @@
 var latest = 'http://tibettimes.net/category/news/feed/';
 var featured_content = "http://tibettimes.net/blog/feed/";
 var videos_feed = 'http://tibettimes.net/feed/?post_type=video';
-var app = {
+var homepage = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
     },
     bindEvents: function() {
+      //write current url to file
+      write_file_current_url.initialize();
     // check page 
     var str = window.location.href;
     var n = str.lastIndexOf('?');
@@ -15,12 +17,10 @@ var app = {
     if(results =='blogs') {
       var feed = featured_content; 
       var hash =results;
-      var tab_title ='Blogs';
      }
     else {
       var feed = latest;
       var hash = 'listing';
-      var tab_title ='Latest News';
     }
      var post = [];
      var post_data_values = {};
@@ -62,6 +62,9 @@ var detail = {
         this.bindEvents();
     },
     bindEvents: function() {
+    //write current url to file
+      write_file_current_url.initialize();
+    
       var str = window.location.href;
       var name = str.substring(str.lastIndexOf("?")+1,str.lastIndexOf("="));
       var n = str.lastIndexOf('=');
@@ -89,6 +92,9 @@ var videos = {
     this.bindEvents();
   },
   bindEvents: function() {
+    //write current url to file
+    write_file_current_url.initialize();
+
     var post = [];
     var post_data_values = {};
     $.feedToJson({
@@ -115,3 +121,68 @@ var videos = {
 
   }
 };
+
+// video landing page
+var write_file_current_url = {
+  initialize: function() {
+    this.write_text();
+  },
+  write_text: function() {
+//device ready
+var current_path = window.location.href;
+document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+      function gotFS(fileSystem) {
+        fileSystem.root.getFile("current_url.txt", {create: false}, gotFileEntry, fail);
+      }
+  }
+  function gotFileEntry(fileEntry) {
+    fileEntry.createWriter(gotFileWriter, fail);
+  }
+  function gotFileWriter(writer) {
+    writer.write(current_path);
+    writer.abort();
+  }
+  function fail(error) {
+    console.log("error : "+error.code);
+  }
+} 
+};
+
+var read_file_to_redirection = {
+  initialize: function() {
+    this.read_file();
+  },
+  read_file: function() {
+
+  document.addEventListener("deviceready", onDeviceReady, false);
+  function onDeviceReady() {
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+      function gotFS(fileSystem) {
+        fileSystem.root.getFile("current_url.txt", {create: true}, gotFile, fail);
+      }
+  }
+  function fail(e) {
+    console.log("FileSystem Error");
+  }
+  function gotFile(fileEntry) {
+    fileEntry.file(function(file) {
+        var reader = new FileReader();
+        reader.onloadend = function(e) {
+            var pathArray = location.href.split( '/' );
+            var protocol = pathArray[0];
+            var host = pathArray[2];
+            var url = protocol + '//' + host;
+            if(this.result){
+              window.location.href = this.result;
+            } else {      
+             window.location.href= "homepage.html";
+            }
+        }
+        reader.readAsText(file);
+    });
+  }
+}
+};
+

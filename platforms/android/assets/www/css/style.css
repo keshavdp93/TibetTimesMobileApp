@@ -1636,6 +1636,7 @@ ol, ul {
   border-bottom: 1px solid #ccc;
   display: inline-block;
   margin-top: 10px;
-  padding-bottom: 10px;
+  padding: 5px;
   width: 100%;
+  box-shadow: 0 0 6px #4c4c4c;
 }
