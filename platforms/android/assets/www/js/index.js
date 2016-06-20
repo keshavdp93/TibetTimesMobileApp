@@ -8,8 +8,8 @@ var homepage = {
         this.bindEvents();
     },
     bindEvents: function() {
-      //write current url to file
-      write_file_current_url.initialize();
+    //write current url to file
+    write_file_current_url.initialize();
     // check page 
     var str = window.location.href;
     var n = str.lastIndexOf('?');
@@ -134,7 +134,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
       function gotFS(fileSystem) {
-        fileSystem.root.getFile("current_url.txt", {create: false}, gotFileEntry, fail);
+        fileSystem.root.getFile("current_url.txt", {create: true}, gotFileEntry, fail);
       }
   }
   function gotFileEntry(fileEntry) {
@@ -155,7 +155,6 @@ var read_file_to_redirection = {
     this.read_file();
   },
   read_file: function() {
-
   document.addEventListener("deviceready", onDeviceReady, false);
   function onDeviceReady() {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
