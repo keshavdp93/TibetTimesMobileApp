@@ -9,6 +9,7 @@ var homepage = {
     },
     bindEvents: function() {
     //write current url to file
+    check_connection.initialize();
     write_file_current_url.initialize();
     // check page 
     var str = window.location.href;
@@ -63,6 +64,7 @@ var detail = {
     },
     bindEvents: function() {
     //write current url to file
+      check_connection.initialize();
       write_file_current_url.initialize();
     
       var str = window.location.href;
@@ -93,6 +95,7 @@ var videos = {
   },
   bindEvents: function() {
     //write current url to file
+    check_connection.initialize();
     write_file_current_url.initialize();
 
     var post = [];
@@ -185,3 +188,21 @@ var read_file_to_redirection = {
 }
 };
 
+ 
+var check_connection = {
+  initialize: function() {
+    this.chk_connection();
+  },
+  chk_connection: function() {
+    document.addEventListener("deviceready", deviceInfo, true);
+    function deviceInfo(){
+      var networkState = navigator.network.connection.type;
+      if (networkState == Connection.NONE){
+        $(".wrap-errer").show();
+      } else {
+        $(".wrap-errer").hide();
+        $(".loader").css("background-image","url('ajax-loader.gif')");
+      }
+    }
+  }
+};

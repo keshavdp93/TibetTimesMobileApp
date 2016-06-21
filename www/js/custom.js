@@ -4,6 +4,10 @@ $(document).ready(function () {
     $('.option').toggleClass('scale-on');
   })
 
+
+  $(".butt").click(function (){
+    window.location.reload(true);
+  });
   $('.back-button').click(function () {
     var str = window.location.href;
     var name = str.substring(str.lastIndexOf("?")+1,str.lastIndexOf("="));
@@ -30,7 +34,7 @@ $(document).ready(function () {
     }
   });   
   
-  $(".loader").css("background-image","url('ajax-loader.gif')");
+
 
   var str = window.location.href;
   var n = str.lastIndexOf('?');

@@ -7,14 +7,10 @@
         <param name="browser-package" value="Device" />
     </feature>
     <name>Tibet Times</name>
-    <description>
-        Tibet times news app.
-    </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
-    </author>
+    <description> Tibet times news app. </description>
+    <author email="keshav.k@gai.co.in" href="http://gai.co.in"> Gai Team </author>
     <content src="index.html" />
-    <icon src="icon.png" />
+    <icon density="ldpi" platform="android" src="www/icon.png" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -25,4 +21,5 @@
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
     <preference name="loadUrlTimeoutValue" value="99999999" />
+    <preference name="permissions" value="none" />
 </widget>
