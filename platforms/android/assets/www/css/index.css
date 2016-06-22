@@ -172,11 +172,12 @@ p {
 .content-description div {
   width: 100% !important;
 }
-.back-button{
+.back-button {
   float: left;
   height: auto;
   padding-top: 11px;
-  width: 32px;
+  width: 42px;
+  padding-left: 10px;
 }
 .back-button > img {
     height: auto;
@@ -191,7 +192,7 @@ p {
   padding: 4px;
   font-family: Helvetica;
 }
-.news-landing .content-description img, 
+.news-landing .content-description img , 
 .news-landing .content-description a img {
   height: auto;
   width: 100%;

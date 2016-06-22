@@ -30,6 +30,7 @@ var homepage = {
         feed:feed,
         success: function(data){
         var counter=0;
+        console.log(data.item[0]);
         //create json of xml output
         for (var value in data.item) {
           var img = $(data.item[value]['encoded']).find('img:first').attr('src');
