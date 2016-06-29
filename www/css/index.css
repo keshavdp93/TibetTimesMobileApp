@@ -25,8 +25,9 @@ h1 {
     text-align:center;
 }
 .content-description img{
-  width: 100%;
   height: auto;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .event {
@@ -270,4 +271,17 @@ a:focus{
   border-radius: 4px;
   box-shadow: 0 0 5px #4c4c4c;
   margin-top: 10px;
+}
+.comments-block li {
+  background: none repeat scroll 0 0 #fff;
+  box-shadow: 0 0 6px #4c4c4c;
+  list-style: outside none none;
+  margin-bottom: 14px;
+  padding: 5px;
+}
+.comment-title {
+  font-size: 19px;
+}
+.comment-description {
+  padding-top: 10px;
 }

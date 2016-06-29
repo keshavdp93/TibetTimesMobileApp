@@ -13,9 +13,12 @@ $(document).ready(function () {
     var name = str.substring(str.lastIndexOf("?")+1,str.lastIndexOf("="));
     var n = str.lastIndexOf('=');
     var results = str.substring(n + 1);
-    if(name == "blogs"){
+    if(name == "blogs") {
       window.location.href= "homepage.html?blogs";
-    } else {
+    } else if(name == "articles") {
+      window.location.href = "articles_listing.html";
+    }
+    else {
       window.location.href= "homepage.html";
     }
   })

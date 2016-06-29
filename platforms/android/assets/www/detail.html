@@ -25,8 +25,10 @@
       <script src="./js/jsonfeeds.js"></script>
       <script src="cordova.js"></script>
       <script type="text/javascript">detail.initialize();</script>
+
   </head>
   <body >
+        
     <div class="wrap-errer">
       <div class="cant">Can't connect</div>
       <div class="check">Check your network and try again</div>
@@ -57,17 +59,14 @@
         <ul>
          <li> <a href="homepage.html">News</a></li>
          <li> <a href="homepage.html?blogs">Blogs</a></li>
-         <li> <a href="homepage.html?blogs">Article</a></li>
+         <li> <a href="articles_listing.html">Article</a></li>
          <li> <a href="homepage.html?blogs">Videos</a></li>
         </ul>
       </div>
-
       <div class="sidebar-overlay"></div>
       <div class="container">     
-        <div  class="tab-pane active" id="news-listing">
-          <div class="details-title"></div>
-          <div class="details-content"></div>
-        </div>
+        <div  class="tab-pane active" id="news-listing"></div>
+        <div class="comments-block"></div>
       </div> 
    </body>
 </html>
