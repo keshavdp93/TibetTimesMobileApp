@@ -14,12 +14,12 @@ $(document).ready(function () {
     var n = str.lastIndexOf('=');
     var results = str.substring(n + 1);
     if(name == "blogs") {
-      window.location.href= "homepage.html?blogs";
+      window.location.href= "homepage.html#parentHorizontalTab2";
     } else if(name == "articles") {
       window.location.href = "articles_listing.html";
     }
     else {
-      window.location.href= "homepage.html";
+      window.location.href= "homepage.html#parentHorizontalTab1";
     }
   })
 

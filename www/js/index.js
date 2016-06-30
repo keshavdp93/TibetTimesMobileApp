@@ -5,33 +5,19 @@ var articles_feed = 'http://tibettimes.net/category/%E0%BD%96%E0%BD%85%E0%BD%A2%
 var homepage = {
     // Application Constructor
     initialize: function() {
-        this.bindEvents();
+      this.bindEvents();
     },
     bindEvents: function() {
     //write current url to file
-    check_connection.initialize();
-    write_file_current_url.initialize();
+     write_file_current_url.initialize();
     // check page 
-    var str = window.location.href;
-    var n = str.lastIndexOf('?');
-    var results = str.substring(n + 1);
-    if(results =='blogs') {
-      var feed = featured_content; 
-      var hash =results;
-     }
-    else {
-      var feed = latest;
-      var hash = 'listing';
-    }
-     var post = [];
-     var post_data_values = {};
-      //read Feeds of latest posts from site    
+    //read Feeds of latest posts from site    
       $.feedToJson({
-        feed:feed,
+        feed:latest,
         success: function(data){
+        var post = [];
+        var post_data_values = {};
         var counter=0;
-        console.log(data.item[0]);
-        //create json of xml output
         for (var value in data.item) {
           var img = $(data.item[value]['encoded']).find('img:first').attr('src');
           if(!img){
@@ -50,9 +36,39 @@ var homepage = {
           counter++;
        }
       //Code taht run on homepage index.html
-      var tpl = "<ul>{{#post}}<li><div class='title'><a href='detail.html?"+hash+"={{id}}'>{{title}}<div class='trim-text'>{{details}}</div> </a></div><div class='image'><a href='detail.html?"+hash+"={{id}}'><img width='100px' height='100px' src='{{image}}'></a></div></li>{{/post}}</ul>";
+      var tpl = "<ul>{{#post}}<li><div class='title'><a href='detail.html?listing={{id}}'>{{title}}<div class='trim-text'>{{details}}</div> </a></div><div class='image'><a href='detail.html?listing={{id}}'><img width='100px' height='100px' src='{{image}}'></a></div></li>{{/post}}</ul>";
       var html = Mustache.to_html(tpl, post_data_values);
-      $('.homepage-wrapper').append(html);
+      $('.feed-news').append(html);
+      
+      $.feedToJson({
+        feed:featured_content,
+        success: function(data){
+        var post = [];
+        var post_data_values = {};
+        var counter=0;
+        for (var value in data.item) {
+          var img = $(data.item[value]['encoded']).find('img:first').attr('src');
+          if(!img){
+            img ="logo.png";
+          }
+           var detail_text = $(data.item[value]['encoded']).text();
+           var trim_text = detail_text.substring(0,100);
+            post.push({ 
+              id: counter,
+              title : data.item[value]['title'],
+              image : img,
+              content :data.item[value]['encoded'],
+              details : trim_text
+            });
+          post_data_values.post = post;
+          counter++;
+       }
+      //Code taht run on homepage index.html
+      var tpl = "<ul>{{#post}}<li><div class='title'><a href='detail.html?blogs={{id}}'>{{title}}<div class='trim-text'>{{details}}</div> </a></div><div class='image'><a href='detail.html?blogs={{id}}'><img width='100px' height='100px' src='{{image}}'></a></div></li>{{/post}}</ul>";
+      var html = Mustache.to_html(tpl, post_data_values);
+      $('.feed-blogs').append(html);
+      }
+    });
       }
     });
   }
@@ -61,11 +77,10 @@ var homepage = {
 var detail = {
     // Application Constructor
     initialize: function() {
-        this.bindEvents();
+      this.bindEvents();
     },
     bindEvents: function() {
     //write current url to file
-      check_connection.initialize();
       write_file_current_url.initialize();
     
       var str = window.location.href;
@@ -117,7 +132,6 @@ var videos = {
   },
   bindEvents: function() {
     //write current url to file
-    check_connection.initialize();
     write_file_current_url.initialize();
 
     var post = [];
@@ -142,8 +156,6 @@ var videos = {
       $('.video-wrap').append(html);
       }
     });
-
-
   }
 };
 
@@ -153,21 +165,34 @@ var write_file_current_url = {
     this.write_text();
   },
   write_text: function() {
-//device ready
-var current_path = window.location.href;
-document.addEventListener("deviceready", onDeviceReady, false);
+  //device ready
+  var current_path = window.location.href;
+  document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
+ 
+    //check network connection
+      var networkState = navigator.network.connection.type;
+      if (networkState == Connection.NONE){
+        $(".wrap-errer").show();
+      } else {
+        $(".wrap-errer").hide();
+        $(".loader").css("background-image","url('ajax-loader.gif')");
+      }
+
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
       function gotFS(fileSystem) {
         fileSystem.root.getFile("current_url.txt", {create: true}, gotFileEntry, fail);
+      console.log(fileSystem);
       }
   }
   function gotFileEntry(fileEntry) {
     fileEntry.createWriter(gotFileWriter, fail);
+    console.log(fileEntry);
   }
   function gotFileWriter(writer) {
     writer.write(current_path);
     writer.abort();
+
   }
   function fail(error) {
     console.log("error : "+error.code);
@@ -182,42 +207,8 @@ var read_file_to_redirection = {
   read_file: function() {
   document.addEventListener("deviceready", onDeviceReady, false);
   function onDeviceReady() {
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
-      function gotFS(fileSystem) {
-        fileSystem.root.getFile("current_url.txt", {create: true}, gotFile, fail);
-      }
-  }
-  function fail(e) {
-    console.log("FileSystem Error");
-  }
-  function gotFile(fileEntry) {
-    fileEntry.file(function(file) {
-        var reader = new FileReader();
-        reader.onloadend = function(e) {
-            var pathArray = location.href.split( '/' );
-            var protocol = pathArray[0];
-            var host = pathArray[2];
-            var url = protocol + '//' + host;
-            if(this.result){
-              window.location.href = this.result;
-            } else {      
-             window.location.href= "homepage.html";
-            }
-        }
-        reader.readAsText(file);
-    });
-  }
-}
-};
 
- 
-var check_connection = {
-  initialize: function() {
-    this.chk_connection();
-  },
-  chk_connection: function() {
-    document.addEventListener("deviceready", deviceInfo, true);
-    function deviceInfo(){
+    //check network connection  
       var networkState = navigator.network.connection.type;
       if (networkState == Connection.NONE){
         $(".wrap-errer").show();
@@ -225,15 +216,37 @@ var check_connection = {
         $(".wrap-errer").hide();
         $(".loader").css("background-image","url('ajax-loader.gif')");
       }
+
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+      function gotFS(fileSystem) {
+        fileSystem.root.getFile("current_url.txt", {create: true}, gotFile, fail);
+      }
     }
+  function fail(e) {
+    console.log("FileSystem Error");
   }
+  function gotFile(fileEntry) {
+    fileEntry.file(function(file) {
+        var reader = new FileReader();
+        reader.onloadend = function(e) {
+          if(this.result){
+            window.location.href = this.result;
+          }
+          else {
+            window.location.href = './homepage.html';
+          }
+        }
+        reader.readAsText(file);
+    });
+  }
+}
 };
+
 var articles_listing = {
   initialize: function(){
     this.article_listing_block();
   },
   article_listing_block: function(){
-      check_connection.initialize();
       write_file_current_url.initialize();
 
      var post = [];
@@ -271,15 +284,12 @@ var articles_listing = {
   }
 };
 
-
 var articles_detail = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
     },
     bindEvents: function() {
-    //write current url to file
-      check_connection.initialize();
       write_file_current_url.initialize();
     
       var str = window.location.href;
