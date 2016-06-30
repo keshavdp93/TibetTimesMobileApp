@@ -233,18 +233,19 @@ a:focus{
   background: #024f69;
   z-index: 1;
   right: 0;
-  top: 50px;
+  top: 65px;
 }
 .menu-bar li {
   border-bottom: 1px solid;
   list-style: outside none none;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  padding-bottom: 12px;
+  padding-top: 12px;
   text-align: center;
 }
 .menu-bar li a{
   color: #fff;
   font-size: 14px;
+  padding: 13px 20% !important;
 }
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
   background-color: transparent;
