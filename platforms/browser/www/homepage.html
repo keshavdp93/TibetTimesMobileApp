@@ -15,9 +15,11 @@
       <link rel="stylesheet" type="text/css" href="./css/style.css"/>
       <link rel="stylesheet" type="text/css" href="./css/index.css"/>
       <link href="./css/navbar-fixed-top.css" rel="stylesheet">
- 
-      <script type="text/javascript" src="jquery.zrssfeed.min.js"></script>
+      <link href = "./css/easy-responsive-tabs.css" rel = "stylesheet">
+      
       <script src="./js/jquery.min.js"></script> 
+      <script src="./js/custom1.js"></script>
+      <script src="./js/easyResponsiveTabs.js"></script>
       <script src="./js/mustache.min.js" ></script>
       <script src="./js/index.js"></script> 
       <script src="./js/custom.js"></script> 
@@ -54,31 +56,22 @@
       </nav> <!--end navigation bar -->
       <div class="menu-bar">
         <ul>
-         <li> <a href="homepage.html">News</a></li>
-         <li> <a href="homepage.html?blogs">Blogs</a></li>
+         <li> <a href="homepage.html#parentHorizontalTab1">News</a></li>
+         <li> <a href="homepage.html#parentHorizontalTab2">Blogs</a></li>
          <li> <a href="articles_listing.html">Article</a></li>
-         <li> <a href="homepage.html?blogs">Videos</a></li>
+         <li> <a href="videos.html">Videos</a></li>
         </ul>
       </div>
-
-      <div class="sidebar-overlay"></div>
-      <div class="container">
-        <div class="row" style="margin-top:15px; padding:5px;">     
-          <div class="card">
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active latest-news">
-                  <a href="homepage.html" id="first-tab">News</a>
-                </li>
-                <li role="presentation" class="blogss">
-                   <a href="homepage.html?blogs">Blog</a>
-                </li> 
+     <div id="parentHorizontalTab">
+            <ul class="resp-tabs-list hor_1">
+                <li>News</li>
+                <li>Blogs </li>
             </ul>
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active homepage-wrapper wrap"  id="news-listing"></div>
-                <div role="tabpanel" class="tab-pane homepage-wrapper wrap" id="profile news-listing"></div>
+            <div class="resp-tabs-container hor_1">
+                  <div class="tab-pane feed-news homepage-wrapper wrap"  id="news-listing" ></div>
+                  <div  class="tab-pane feed-blogs homepage-wrapper wrap"  id="news-listing"></div>
             </div>
-          </div>
         </div>
-      </div>
+
   </body>
 </html>

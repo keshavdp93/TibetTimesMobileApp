@@ -15,6 +15,7 @@ var homepage = {
       $.feedToJson({
         feed:latest,
         success: function(data){
+          console.log(data.item[0]);
         var post = [];
         var post_data_values = {};
         var counter=0;
@@ -133,29 +134,6 @@ var videos = {
   bindEvents: function() {
     //write current url to file
     write_file_current_url.initialize();
-
-    var post = [];
-    var post_data_values = {};
-    $.feedToJson({
-      feed:videos_feed,
-      success: function(data){
-        var counter=0;
-        //create json of xml output
-        for (var value in data.item) {
-            post.push({ 
-              id: counter,
-              title : data.item[value]['title'],
-              video : data.item[value]['encoded']
-            });
-          post_data_values.post = post;
-          counter++;
-       }
-      //Code taht run on homepage index.html
-      console.log(data.item);
-      var html = data.item[0]['description'];
-      $('.video-wrap').append(html);
-      }
-    });
   }
 };
 
@@ -207,7 +185,6 @@ var read_file_to_redirection = {
   read_file: function() {
   document.addEventListener("deviceready", onDeviceReady, false);
   function onDeviceReady() {
-
     //check network connection  
       var networkState = navigator.network.connection.type;
       if (networkState == Connection.NONE){
@@ -219,21 +196,35 @@ var read_file_to_redirection = {
 
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
       function gotFS(fileSystem) {
-        fileSystem.root.getFile("current_url.txt", {create: true}, gotFile, fail);
+        fileSystem.root.getFile("current_url.txt", {create: false}, gotFile, fail);
       }
     }
   function fail(e) {
-    console.log("FileSystem Error");
+    var devicePlatform = device.platform;
+    if(devicePlatform == 'iOS'){
+      location.href = './homepage.html';
+      } else {
+      window.location.href = './homepage.html';
+    }
   }
   function gotFile(fileEntry) {
     fileEntry.file(function(file) {
         var reader = new FileReader();
         reader.onloadend = function(e) {
+          var devicePlatform = device.platform;
           if(this.result){
-            window.location.href = this.result;
+            if(devicePlatform == 'iOS'){
+              location.href = this.result;
+             } else {
+              window.location.href = this.result;
+            }
           }
           else {
-            window.location.href = './homepage.html';
+            if(devicePlatform == 'iOS'){
+              location.href = './homepage.html';
+            } else {
+              window.location.href = './homepage.html';
+            }
           }
         }
         reader.readAsText(file);

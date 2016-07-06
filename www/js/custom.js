@@ -13,13 +13,28 @@ $(document).ready(function () {
     var name = str.substring(str.lastIndexOf("?")+1,str.lastIndexOf("="));
     var n = str.lastIndexOf('=');
     var results = str.substring(n + 1);
+
+    var devicePlatform = device.platform;     
+
     if(name == "blogs") {
-      window.location.href= "homepage.html#parentHorizontalTab2";
+      if(devicePlatform == 'iOS'){
+        location.href= "homepage.html#parentHorizontalTab2";
+      } else { 
+        window.location.href= "homepage.html#parentHorizontalTab2";
+      }
     } else if(name == "articles") {
-      window.location.href = "articles_listing.html";
-    }
+      if(devicePlatform == 'iOS'){
+          location.href= "articles_listing.html";
+        } else { 
+          window.location.href= "articles_listing.html";
+        }
+      }
     else {
-      window.location.href= "homepage.html#parentHorizontalTab1";
+      if(devicePlatform == 'iOS'){
+        location.href= "homepage.html#parentHorizontalTab1";
+      } else { 
+        window.location.href= "homepage.html#parentHorizontalTab1";
+      }
     }
   })
 
@@ -37,8 +52,6 @@ $(document).ready(function () {
     }
   });   
   
-
-
   var str = window.location.href;
   var n = str.lastIndexOf('?');
   var results = str.substring(n + 1);

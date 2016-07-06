@@ -51,7 +51,7 @@ a:active {
      width:  100%!important;
      border:  none!important;
      color:  #848484!important;
-     background-color:  #3F51B5!important;
+     background-color:  #024f69!important;
      box-shadow:  0 1px 6px 0 rgba(0,  0,  0,  .2),  0 0 15px 0 rgba(0,  0,  0,  .3)!important;
      font-size:  14px!important;
 }
@@ -1428,7 +1428,7 @@ html {
         .nav-tabs > li > a::after { content: ""; background: #4285F4; height: 2px; position: absolute; width: 100%; left: 0px; bottom: -1px; transition: all 250ms ease 0s; transform: scale(0); }
     .nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after { transform: scale(1); }
 .tab-nav > li > a::after { background: #21527d none repeat scroll 0% 0%; color: #fff; }
-.tab-pane { padding: 15px 0; }
+
 .tab-content{padding:20px}
 
 .card {
